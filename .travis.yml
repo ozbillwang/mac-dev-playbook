@@ -18,18 +18,18 @@ matrix:
       osx_image: xcode11.3
 
 before_install:
-  # Install role dependencies. Do this here, using newer OpenSSL version and a
-  # virtualenv because older macOS versions will fail with the system version of
-  # OpenSSL and Python if done later.
-  - brew upgrade openssl || brew install openssl || true
-  - brew upgrade python3 || brew install python3 || true
-  - sudo -H pip3 install -U virtualenv
-  - virtualenv --python=/usr/local/bin/python3 .venv
-  - source .venv/bin/activate
-  - pip3 install ansible
-  - python -c "import ssl; print(ssl.OPENSSL_VERSION)"
-  - ansible-galaxy install -r requirements.yml -p ./roles
-  - deactivate
+#   # Install role dependencies. Do this here, using newer OpenSSL version and a
+#   # virtualenv because older macOS versions will fail with the system version of
+#   # OpenSSL and Python if done later.
+#   - brew upgrade openssl || brew install openssl || true
+#   - brew upgrade python3 || brew install python3 || true
+#   - sudo -H pip3 install -U virtualenv
+#   - virtualenv --python=/usr/local/bin/python3 .venv
+#   - source .venv/bin/activate
+#   - pip3 install ansible
+#   - python -c "import ssl; print(ssl.OPENSSL_VERSION)"
+#   - ansible-galaxy install -r requirements.yml -p ./roles
+#   - deactivate
 
   # Uninstall existing Homebrew installation.
   - curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
@@ -50,6 +50,8 @@ before_install:
 install:
   # Install Ansible.
   - sudo -H pip3 install ansible
+  - python -c "import ssl; print(ssl.OPENSSL_VERSION)"
+  - ansible-galaxy install -r requirements.yml -p ./roles
 
   # Add a hosts file.
   - sudo mkdir -p /etc/ansible
@@ -63,14 +65,14 @@ script:
   # Copy test config.yml into place.
   - "cp tests/config.yml config.yml"
 
-  # Test the playbook.
-  - "travis_wait 30 ansible-playbook main.yml"
-
-  # Test the playbook's idempotence.
-  - idempotence=$(mktemp)
-  - "ansible-playbook main.yml | tee -a ${idempotence}"
-  - >
-    tail ${idempotence}
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+#   # Test the playbook.
+#   - "travis_wait 30 ansible-playbook main.yml"
+# 
+#   # Test the playbook's idempotence.
+#   - idempotence=$(mktemp)
+#   - "ansible-playbook main.yml | tee -a ${idempotence}"
+#   - >
+#     tail ${idempotence}
+#     | grep -q 'changed=0.*failed=0'
+#     && (echo 'Idempotence test: pass' && exit 0)
+#     || (echo 'Idempotence test: fail' && exit 1)
