@@ -1,0 +1,71 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+  - name: removing tools
+    homebrew: name={{ item }} state=absent
+    with_items:
+#      - coreutils
+#      - archey
+#      - axel
+#      - ack
+#      - bash
+#      - binutils
+#      - csshx
+#      - diffutils
+#      - gawk
+#      - git
+#      - gnutls
+#      - gzip
+#      - less
+#      - openssh
+#      - rsync
+#      - shellcheck
+#      - ssh-copy-id
+#      - subversion
+#      - tree
+#      - unzip
+      - wdiff
+      - vim
+      - macvim
+#      - wget
+#      - zsh
+#      - findutils
+#      - gnu-indent
+#      - gnu-sed
+#      - gnu-tar
+#      - gnu-which
+#      - grep
+#      - gradle
+#      - groovy
+#      - maven
+#      - maven-completion
+#      - docker-compose
+#      - docker-machine
+#      - docker-swarm
+#      - vagrant-completion
+#      - java
+#      - java7
+#      - jenv
+
+
+#  - name: Removing tools using Homebrew Cask
+#    homebrew_cask: name={{ item }} state=absent
+#    with_items:
+#      - iterm2
+#      - java
+#      - facter
+#      - sublime-text3
+#      - transmit
+#      - eclipse-jee
+#      - intellij-idea-ce
+#      - mysqlworkbench
+#      - virtualbox
+#      - virtualbox-extension-pack
+#      - vagrant
+#      - apple-connect
+#      - radar
+#      - apple-directory
+#      - apple-espresso
+#      - microsoft-office-2016

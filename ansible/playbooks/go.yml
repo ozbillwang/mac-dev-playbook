@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+  - block:
+    - name: checking for existance of folders
+      stat:
+        path: "{{ item }}"
+      register: folder_stats
+      with_items:
+        - "~/go/src"
+        - "~/go/bin"
+        - "~/go/pkg"
+
+    - name: creating multiple folders without disturbing previous permissions
+      file:
+        path: "{{ item.item }}"
+        state: directory
+      when: item.stat.exists == false
+      with_items:
+        - "{{ folder_stats.results }}"
+
+    - name: setting delv certs
+      shell: sh -c "$(curl -fsSL https://raw.github.com/derekparker/delve/master/scripts/gencert.sh)"
+
+    - name: installing go
+      homebrew:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - go                    # Golang Language
+        #- go-delve/delve/delve  # Golang Language Debugger
+        - glide                 # Golang Language Vender Package Manager
+
+    - name: setting GOPATH
+      lineinfile:
+        dest: "~/.zshrc"
+        line: "{{ item }}"
+      with_items:
+        - export GOPATH=${HOME}/go
+        - export PATH=${PATH}:$GOPATH/bin

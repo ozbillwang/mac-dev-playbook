@@ -1,0 +1,109 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+
+  # - brew_taps:
+  #     - homebrew/core        # Tap for core
+  #     - homebrew/services    # Tap for services
+  #     - homebrew/bundle      # Tap for bundle
+  #     - homebrew/cask-versions      # Tap for bundle
+  #     - JFrogDev/tap         # Tap for JFrog
+  #     - neovim/neovim        # Tap for NeoVim
+
+  - brew_install:
+      - coreutils   # GNU File, Shell, and Text utilities
+      - bash        # Bash (Bourne-again SHell) is a UNIX command interpreter
+      - diffutils   # Package of several programs related to finding differences between files
+      - gawk        # GNU awk utility
+      - git         # Distributed revision control system
+      - gzip        # Popular GNU data compression program
+      - less        # Less is a free, open-source file pager
+      - rsync       # Utility that provides fast incremental file transfer
+      - ssh-copy-id # Add a public key to a remote machine's authorized_keys file
+      - tree        # Display directories as trees (with optional color/HTML output)
+      - vim         # vi "workalike" with many additional features
+      - wdiff       # Display word differences between text files
+      - wget        # Internet file retriever
+      - yamllint
+      # - stormssh    # Command-line tool to manage your ssh connections
+      # - pkgdiff     # Tool for analyzing changes in software packages
+      # - neovim      # Ambitious Vim-fork focused on extensibility and agility
+      # - shellcheck  # Static analysis and lint tool, for (ba)sh scripts
+      # - ansifilter  # Strip or convert ANSI codes into HTML, (La)Tex, RTF, or BBCode
+      # - jq          # JSON Processor
+      # - jid         # Json incremental digger
+      # - ripgrep     # Search tool like grep and The Silver Searcher.
+      # - nmap        # Port scanning utility for large network
+      # - git-extras  # Small git utilities
+      # - ncdu        # NCurses Disk Usage
+      - ffind       # Friendlier find
+      # - hadolint    # Docker linter written in Haskell
+      # - jfrog-cli-go # command-line interface for Jfrog Artifactory and Bintray
+      # - jsonlint     # JSON parser and validator with a CLI
+      - fd           # Simple, fast and user-friendly alternative to find
+      # - bat          # Clone of cat(1) with syntax highlighting and Git integration
+      # - mkcert       # Simple tool to make locally trusted development certificates
+    # - python2      # Interpreted, interactive, object-oriented programming language
+    # - python3     # Interpreted, interactive, object-oriented programming language
+    # - battery     # Utility to display battery percentage
+    # - sshpass     # https://github.com/hudochenkov/homebrew-sshpass
+    #  - pwgen       # Password generator
+    #  - gnupg       # GNU Pretty Good Privacy (PGP) package
+    # - macvim      # GUI for vim, made for macOS - *******remove it later*******
+    #  - helmfile    # Deploy Kubernetes Helm Charts
+
+  # - brew_install_with_default_names:
+      # - findutils   # Collection of GNU find, xargs, and locate
+      # - gnu-sed     # GNU implementation of the famous stream editor
+      # - gnu-tar     # GNU version of the tar archiving utility
+      # - gnu-which   # GNU implementation of which utility
+      # - grep        # GNU grep utility
+
+  # - brew_cask_install:
+     # - java8         # Java Standard Edition Development Kit
+
+  tasks:
+    # - name: install homebrew taps
+    #   homebrew_tap:
+    #     tap: "{{ item }}"
+    #     state: present
+    #   with_items: "{{ brew_taps }}"
+
+    # - name: installing tools using homebrew cask
+    #   homebrew_cask:
+    #     name: "{{ item }}"
+    #     state: present
+    #   with_items: "{{ brew_cask_install }}"
+
+    - name: update homebrew and packages
+      homebrew: update_homebrew=yes upgrade_all=yes
+
+    - name: installing tools using homebrew
+      homebrew:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ brew_install }}"
+      ignore_errors: yes
+
+    # - name: installing tools using homebrew with default names
+    #   homebrew:
+    #     name: "{{ item }}"
+    #     state: present
+    #     install_options: with-default-names
+    #   with_items: "{{ brew_install_with_default_names }}"
+
+    # - name: installing ci tools
+    #   homebrew:
+    #     name: "{{ item }}"
+    #     state: present
+    #   with_items:
+    #     # - jenkins            # Extendable open source continuous integration server
+    #     - sonar              # Manage code quality
+    #     # - sonar-scanner      # Launcher to analyze a project with SonarQube
+    #     - sonarlint          # provides pre-commit feedback on quality issues injected into code.
+   #     - artifactory        # Binary Repository Manager from JFrog
+   #     - artifactory-pro   # The Univeral Binary Repository
+   #     - flyway             # Database version control to control migrations
+   #     - nexus              # Binary Repository Manager from Sonatype

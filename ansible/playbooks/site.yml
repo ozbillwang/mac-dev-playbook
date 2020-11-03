@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+
+- import_playbook: zsh.yml
+- import_playbook: common.yml
+# - import_playbook: build.yml
+# - import_playbook: casks.yml
+# - import_playbook: completions.yml
+# - import_playbook: deploy.yml
+# - import_playbook: git.yml
+# - import_playbook: ql.yml
+# - import_playbook: vplugins.yml
+# - import_playbook: zsh.yml
+# - import_playbook: alias.yml
+# - import_playbook: export.yml
+# - import_playbook: lsetup.yml
+# #- import_playbook: radar-cli.yml
+# - import_playbook: list.yml
+#- import_playbook: app.yml
+#- import_playbook: apm.yml
+#- import_playbook: codex.yml
+#- import_playbook: ci.yml
+#- import_playbook: gems.yml
+#- import_playbook: go.yml
+#- import_playbook: hashi.yml
+#- import_playbook: java7_with_UnlimitedJCE.yml
+#- import_playbook: java8_with_UnlimitedJCE.yml
+#- import_playbook: jenv.yml
+#- import_playbook: kal.yml
+#- import_playbook: keytool_jce.yml
+#- import_playbook: mac-cli.yml
+#- import_playbook: mac_pkgs.yml
+#- import_playbook: myriad.yml
+#- import_playbook: mysql.yml
+#- import_playbook: node.yml
+#- import_playbook: pip.yml
+#- import_playbook: radar-cli.yml
+#- import_playbook: remove.yml
+#- import_playbook: scala.yml
+#- import_playbook: sl_keymap.yml
+#- import_playbook: subl_settings.yml
+#- import_playbook: sublime-plugin-install.yml
+#- import_playbook: tag-release.yml
+#- import_playbook: template.yml
+#- import_playbook: towercli.yml

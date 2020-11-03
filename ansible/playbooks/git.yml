@@ -1,0 +1,108 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+
+   # https://github.com/github/gitignore, https://www.gitignore.io
+  - name: copying gitignore template
+    copy:
+      src: files/gitignore.txt
+      dest: ~/.gitignore_global
+
+    # https://github.com/Danimoth/gitattributes, http://gitattributes.io
+  # - name: copying gitattributes template
+  #   copy:
+  #     src: files/gitattributes.txt
+  #     dest: ~/.gitattributes_global
+
+  - name: configure global gitignore
+    #command: git config --global core.excludesfile '~/.gitignore_global'
+    git_config:
+      name: core.excludesfile
+      scope: global
+      value: '~/.gitignore_global'
+
+  # - name: configure core.attributesfile
+  #   #command: git config --global core.attributesfile '~/.gitattributes_global'
+  #   git_config:
+  #     name: core.attributesfile
+  #     scope: global
+  #     value: '~/.gitattributes_global'
+
+  - name: configure push.default to Git 2.0 new behavior
+    #command: git config --global push.default simple
+    git_config:
+      name: push.default
+      scope: global
+      value: simple
+
+  - name: configure core.autocrlf
+    #command: git config --global core.autocrlf input
+    git_config:
+      name: core.autocrlf
+      scope: global
+      value: input
+
+  - name: configure core.safecrlf
+    #command: git config --global core.safecrlf true
+    git_config:
+      name: core.safecrlf
+      scope: global
+      value: true
+
+  - name: configure reuse recorded resolution
+    #command: git config --global rerere.enabled true
+    git_config:
+      name: rerere.enabled
+      scope: global
+      value: true
+
+  - name: configure osxkeychain for credentials
+    #command: git config --global credential.helper osxkeychain
+    git_config:
+      name: credential.helper
+      scope: global
+      value: osxkeychain
+
+    # https://robots.thoughtbot.com/autosquashing-git-commits
+  - name: configure rebase autosquash
+    #command: git config --global rebase.autosquash true
+    git_config:
+      name: rebase.autosquash
+      scope: global
+      value: true
+
+  - name: configure core editor
+    #command: git config --global core.editor "vim"
+    git_config:
+      name: core.editor
+      scope: global
+      value: 'vim'
+
+  - name: configure core pager
+    #command: git config --global core.pager cat
+    git_config:
+      name: core.pager
+      scope: global
+      value: cat
+
+  - name: configure core whitespace
+    #command: git config --global core.pager cat
+    git_config:
+      name: core.whitespace
+      scope: global
+      value: blank-at-eol,blank-at-eof
+
+  - name: configure hub host
+    #command: git config --global core.pager cat
+    git_config:
+      name: hub.host
+      scope: global
+      value: github.com
+
+  - name: configure unstage alias
+    #command: git config --global alias.unstage "reset HEAD"
+    git_config:
+      name: alias.unstage
+      scope: global
+      value: reset HEAD

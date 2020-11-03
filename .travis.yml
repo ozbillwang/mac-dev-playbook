@@ -64,13 +64,14 @@ script:
   - "cp tests/config.yml config.yml"
 
   # Test the playbook.
-  - "travis_wait 30 ansible-playbook main.yml"
+  - DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+  - "travis_wait 30 ansible-playbook -i 'localhost,' -c local "$DIR"/ansible/playbooks/site.yml"
 
-  # Test the playbook's idempotence.
-  - idempotence=$(mktemp)
-  - "ansible-playbook main.yml | tee -a ${idempotence}"
-  - >
-    tail ${idempotence}
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+#   # Test the playbook's idempotence.
+#   - idempotence=$(mktemp)
+#   - "ansible-playbook main.yml | tee -a ${idempotence}"
+#   - >
+#     tail ${idempotence}
+#     | grep -q 'changed=0.*failed=0'
+#     && (echo 'Idempotence test: pass' && exit 0)
+#     || (echo 'Idempotence test: fail' && exit 1)

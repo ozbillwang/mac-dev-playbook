@@ -1,0 +1,85 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - name: installing zsh
+      homebrew:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - zsh             # UNIX shell (command interpreter)
+        #- zsh-lovers      # Tips, tricks, and examples for zsh
+        - z               # Tracks most-used directories to make cd smarter # Jump Around - https://github.com/rupa/z
+        - v               # Z for vim
+        - zsh-completions  # Additional completion definitions for zsh
+        - zsh-syntax-highlighting  # Fish shell like syntax highlighting for zsh
+        - zsh-history-substring-search # Zsh port of Fish shell's history search
+        - zsh-autosuggestions  # Fish-like fast/unobtrusive autosuggestions for zsh
+        - zsh-git-prompt   # Informative git prompt for zsh
+
+    # oh-my-zsh -- A delightful community-driven framework for managing your zsh configuration.
+    # - name: installing oh-my-zsh
+    #   shell: sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+    - name: copy .zshrc file
+      copy:
+        src: files/.zshrc
+        dest: ~/.zshrc
+
+    - name: configuring zsh plugins
+      lineinfile:
+        dest: ~/.zshrc
+        regexp: ^plugins=
+        line: "plugins=(git git-extras mvn brew docker osx extract z sublime npm gradle kubectl nmap iterm2 helm vscode)"
+
+    - name: configuring zsh-completions
+      lineinfile:
+        dest: ~/.zshrc
+        line: "fpath=(/usr/local/share/zsh-completions $fpath)"
+
+    - name: configuring zsh-syntax-highlighting
+      lineinfile:
+        dest: ~/.zshrc
+        line: "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+    - name: configuring zsh-syntax-highlighting-search
+      lineinfile:
+        dest: ~/.zshrc
+        line: "source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+
+    - name: configuring zsh-autosuggestions
+      lineinfile:
+        dest: ~/.zshrc
+        line: "source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+    # - name: configuring bottles
+    #   lineinfile:
+    #     dest: ~/.zshrc
+    #     line: "export HOMEBREW_BOTTLE_DOMAIN=https://retail-bint.corp.bmaddali.com/artifactory"
+        #line: "export HOMEBREW_ARTIFACT_DOMAIN==https://artifactory-iag.bmaddali.com/artifactory/homebrew"
+
+    - name: .z
+      shell: if [ ! -f "~/.z" ]; then touch  "$HOME/.z"; fi
+
+    - name: disabling homebrew analytics zshrc
+      lineinfile:
+        dest: ~/.zshrc
+        line: "export HOMEBREW_NO_ANALYTICS=1"
+      tags: analytics
+
+    - name: configuring z in zsh
+      lineinfile:
+        dest: ~/.zshrc
+        line: " . `brew --prefix`/etc/profile.d/z.sh"
+
+    - name: change zsh theme to pygmalion
+      replace:
+        dest: ~/.zshrc
+        regexp: 'robbyrussell'
+        replace: 'pygmalion'
+        backup: no
+
+  #  - name: Installing Ultimate vimrc
+  #    git: repo=https://github.com/amix/vimrc.git dest=~/.vim_runtime
+  #  - command: sh ~/.vim_runtime/install_awesome_vimrc.sh
