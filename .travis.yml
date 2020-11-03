@@ -31,14 +31,6 @@ before_install:
   #- ansible-galaxy install -r requirements.yml -p ./roles
   - deactivate
 
-  # Uninstall existing Homebrew installation.
-  - curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
-  - chmod +x ./uninstall.sh
-  - ./uninstall.sh --force
-  - sudo rm -rf /usr/local/Homebrew
-  - sudo rm -rf /usr/local/Caskroom
-  - sudo rm -rf /usr/local/bin/brew
-
   # Install Python 3.
   - curl "https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg" -o "python3.pkg"
   - sudo installer -pkg python3.pkg -target /
@@ -57,9 +49,5 @@ install:
   - "echo -e '[local]\nlocalhost ansible_connection=local' | sudo tee -a /etc/ansible/hosts > /dev/null"
 
 script:
-  # Copy test config.yml into place.
-  - "cp tests/config.yml config.yml"
-
   # Test the playbook.
-  - tree
   - "travis_wait 30 ansible-playbook -i 'localhost,' -c local ./ansible/playbooks/site.yml"
