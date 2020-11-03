@@ -61,5 +61,5 @@ script:
   - "cp tests/config.yml config.yml"
 
   # Test the playbook.
-  - DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-  - "travis_wait 30 ansible-playbook -i 'localhost,' -c local $DIR/ansible/playbooks/site.yml"
+  - tree
+  - "travis_wait 30 ansible-playbook -i 'localhost,' -c local ./ansible/playbooks/site.yml"
