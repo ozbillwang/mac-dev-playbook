@@ -2,7 +2,7 @@
 - hosts: localhost
 
 - import_playbook: zsh.yml
-- import_playbook: common.yml
+# - import_playbook: common.yml
 # - import_playbook: build.yml
 # - import_playbook: casks.yml
 # - import_playbook: completions.yml
