@@ -4,13 +4,13 @@
 
   vars:
 
-  # - brew_taps:
-  #     - homebrew/core        # Tap for core
-  #     - homebrew/services    # Tap for services
-  #     - homebrew/bundle      # Tap for bundle
-  #     - homebrew/cask-versions      # Tap for bundle
-  #     - JFrogDev/tap         # Tap for JFrog
-  #     - neovim/neovim        # Tap for NeoVim
+  - brew_taps:
+      - homebrew/core        # Tap for core
+      - homebrew/services    # Tap for services
+      - homebrew/bundle      # Tap for bundle
+      - homebrew/cask-versions      # Tap for bundle
+      - JFrogDev/tap         # Tap for JFrog
+      - neovim/neovim        # Tap for NeoVim
 
   - brew_install:
       - coreutils   # GNU File, Shell, and Text utilities
@@ -55,21 +55,21 @@
     #  - helmfile    # Deploy Kubernetes Helm Charts
 
   # - brew_install_with_default_names:
-      # - findutils   # Collection of GNU find, xargs, and locate
+      - findutils   # Collection of GNU find, xargs, and locate
       # - gnu-sed     # GNU implementation of the famous stream editor
       # - gnu-tar     # GNU version of the tar archiving utility
       # - gnu-which   # GNU implementation of which utility
-      # - grep        # GNU grep utility
+      - grep        # GNU grep utility
 
   # - brew_cask_install:
      # - java8         # Java Standard Edition Development Kit
 
   tasks:
-    # - name: install homebrew taps
-    #   homebrew_tap:
-    #     tap: "{{ item }}"
-    #     state: present
-    #   with_items: "{{ brew_taps }}"
+    - name: install homebrew taps
+      homebrew_tap:
+        tap: "{{ item }}"
+        state: present
+      with_items: "{{ brew_taps }}"
 
     # - name: installing tools using homebrew cask
     #   homebrew_cask:
